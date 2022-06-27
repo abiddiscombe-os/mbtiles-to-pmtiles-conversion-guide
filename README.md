@@ -9,7 +9,7 @@ Ordnance Survey's free [Open Zoomstack](https://www.ordnancesurvey.co.uk/busines
 - A server capable of reading the SQLite MBTiles database fetches induvidual tiles per each request. **Requires a backend environment**.
 - As an expanded file structure, where the `/{x}/{y}/{z}/` file path allows for direct access to each tile.
 
-**PM**Tiles ('Protomap Tiles') is an alternative to MBTiles. It can be stored as a static file on a web server (that supports [byte serving](https://en.wikipedia.org/wiki/Byte_serving)), and the Protomaps .js client can access induvidual tiles within the archive, allowing mapping engines to read the data. The PMTiles format is suitable for deployment to static sites or CDNs, which is often cheaper and faster to access. The [documentation](https://protomaps.com/docs/pmtiles/storage-providers) lists some compatible storage providers for hosting PMTiles.
+**PM**Tiles ('Protomap Tiles') is an alternative to MBTiles. It can be stored as a static file on a web server (that supports [byte serving](https://en.wikipedia.org/wiki/Byte_serving)), and the Protomaps .js client can access induvidual tiles within the archive, allowing mapping engines to read the data. The PMTiles format is suitable for deployment to static sites or CDNs, which are often cheaper and have a lower latency. The [docs](https://protomaps.com/docs/pmtiles/storage-providers) list some compatible storage providers for hosting PMTiles.
 
 ## 1. Downloading OS Zoomstack Data
 Download the Open Zoomstack data from the [OS Data Hub](https://osdatahub.os.uk/downloads/open/OpenZoomstack) in `Vector Tiles (MBTiles)` format.
