@@ -6,7 +6,7 @@ This technique and the instructions written here are still experimental, please 
 This guide explains the steps to deploy a PMTiles version of the OS Open Zoomstack data for use in a MapLibre GL JS map.  
 Ordnance Survey's free [Open Zoomstack](https://www.ordnancesurvey.co.uk/business-government/products/open-zoomstack) is a useful source of data for creating simple and highly customisable web basemaps. It is provided in both `GeoPackage`, and `MBTiles` formats.
 
-## Why convert into PMTiles?
+## Why use PMTiles?
 
 **MB**Tiles ('Mapbox Tiles') are a data format for storing vector tiles in a single archive. They can be served to clients via a middleware application which reads induvidual tiles from the database per each request, or by expanding file structure on the server, whereby the `/{x}/{y}/{z}/` file path corresponds to a physical path.
 
