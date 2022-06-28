@@ -3,7 +3,8 @@
 **IMPORTANT:  
 This technique and the instructions written here are still experimental, please don't use it for production just yet!**
 
-This guide explains the steps to deploy a PMTiles version of the OS Open Zoomstack data for use in a MapLibre GL JS map. Ordnance Survey's free [Open Zoomstack](https://www.ordnancesurvey.co.uk/business-government/products/open-zoomstack) is a useful source of data for creating simple and highly customisable web basemaps. It is provided in both `GeoPackage`, and `MBTiles` formats.
+This guide explains the steps to deploy a PMTiles version of the OS Open Zoomstack data for use in a MapLibre GL JS map.  
+Ordnance Survey's free [Open Zoomstack](https://www.ordnancesurvey.co.uk/business-government/products/open-zoomstack) is a useful source of data for creating simple and highly customisable web basemaps. It is provided in both `GeoPackage`, and `MBTiles` formats.
 
 ## Why convert into PMTiles?
 
