@@ -16,13 +16,12 @@ Another *de-facto* standard for storing tile data is the **MB**Tiles file format
 The [Protomaps documentation](https://protomaps.com/docs/pmtiles/storage-providers) lists compatible storage providers for hosting PMTiles.
 
 ## Downloading OS Open Zoomstack MBTiles
-Download the OS Open Zoomstack data from the [OS Data Hub](https://osdatahub.os.uk/downloads/open/OpenZoomstack) in `Vector Tiles (MBTiles)` format. This file is around 2.5 GB in size.  
+Download the OS Open Zoomstack data from the [OS Data Hub](https://osdatahub.os.uk/downloads/open/OpenZoomstack) in `Vector Tiles (MBTiles)` format.
+
 This is free and open data, [but you must provide attribution](https://github.com/OrdnanceSurvey/os-api-branding) to use the data in your mapping projects.
 
 ## Conversion Guide
-The following instructions are tailored to the Open Zoomstack data, but most data stored in **MB**Tiles can be converted to **PM**Tiles using these instructions. See the [official documentation](https://protomaps.com/docs/pmtiles#pmtiles-for-python) for further advice and support.
-
-Make sure you have an up-to-date copy of `python3` and `python3-pip` on your system, then install the `pmtiles` python package, which we will use to convert **MB**Tiles into **PM**Tiles.
+Make sure you have an up-to-date copy of `python3` and `python3-pip` on your system, then install the `pmtiles` python package, which we will use to convert **MB**Tiles into **PM**Tiles. See the [official documentation](https://protomaps.com/docs/pmtiles#pmtiles-for-python) for further advice and support.
 
 ```bash
 pip install pmtiles
