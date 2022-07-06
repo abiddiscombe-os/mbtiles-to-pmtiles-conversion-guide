@@ -1,16 +1,16 @@
 {
     "version": 8,
-    "name": "OS Open Zoomstack - Night",
+    "name": "OS Open Zoomstack - Light",
     "sources": {
         "composite": {
             "type": "vector",
             "tiles": [
-                "pmtiles://https://abiddiscombe-os.github.io/zoomstack2pmtiles/OS_Open_Zoomstack_SAMPLE.pmtiles/{z}/{x}/{y}"
+                "pmtiles://http://localhost/OS_Open_Zoomstack/OS_Open_Zoomstack.pmtiles/{z}/{x}/{y}"
             ]
         }
     },
-    "sprite": "https://abiddiscombe-os.github.io/zoomstack2pmtiles/assets/OS_Open_Zoomstack_Night/sprites/sprites",
-    "glyphs": "https://abiddiscombe-os.github.io/zoomstack2pmtiles/assets/OS_Open_Zoomstack_Night/fonts/{fontstack}/{range}.pbf",
+    "sprite": "http://localhost/OS_Open_Zoomstack/sprites/sprites",
+    "glyphs": "http://localhost/OS_Open_Zoomstack/fonts/{fontstack}/{range}.pbf",
     "layers": [
         {
             "id": "background",

@@ -1,72 +1,76 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
     <head>
-        <title>Zoomstack PMTiles Demo</title>
+        <title>OS Open Zoomstack | PMTiles Demo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="https://github.com/abiddiscombe-os">
         <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.css' />
         <link rel="stylesheet" href="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.css" />
     </head>
+
     <body>
         <header>
-            <h1>OS Open Zoomstack PMTiles Demo</h1>
-            <p>This demo has been cut to the London area to reduce the size of the PMTiles file, in order to put it on GitHub. Following the instructions in this repo will provide the uncut dataset covering the entirety of GB.</p>
-            <p>To view the repo, <a href="https://github.com/abiddiscombe-os/zoomstack2pmtiles" target="_blank">click here</a>.</p>
+            <h1>OS Open Zoomstack PMTiles Demo (Road Style)</h1>
+            <p><a href="https://github.com/abiddiscombe-os/zoomstack2pmtiles" target="_blank">View Source</a>.</p>
         </header>
         <main>
             <div id="map" style="height: 100%;">
                 <noscript>
-                    <h2>Please enable JavaScript.</h2>
-                    <p>JavaScript is required to run this app.</p>
+                    <p>JavaScript is required to use MapLibre.</p>
                 </noscript>
             </div>
         </main>
     </body>
+
     <style>
 
         @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&family=Source+Sans+Pro:wght@400;600&display=swap');
-        h1 { margin: 0px; padding: 0px 0px 4px 0px; font-size: 1.2em; font-weight: 600; font-family: 'Source Sans Pro', sans-serif; }
-        p { margin: 0px; padding: 0px 0px 0px 0px; font-size: 1.0em; font-weight: 400; font-family: 'Source Sans Pro', sans-serif; }
-        small { margin: 0px; padding: 0px 0px 0px 0px; font-size: 0.8em; font-weight: 400; font-family: 'Source Sans Pro', sans-serif; }
+        h1 {
+            margin: 0px; padding: 0px 0px 4px 0px; 
+            font-size: 1.2em; font-weight: 600; font-family: sans-serif;
+        }
+        p {
+            margin: 0px; padding: 0px 0px 4px 0px;
+            font-size: 0.92em; font-weight: 400; font-family: sans-serif;
+        }
         body {
-            padding: 0;
-            margin: 0;
+            padding: 0; margin: 0;
             height: 100vh;
-            display: grid;
-            grid-template-rows: auto 1fr;
+            display: grid; grid-template-rows: auto 1fr;
         }
         body > header {
-            padding: 14px;
-            margin: 0;
-            background: #fafafa;
-            color: #3d3d3d;
-            border-bottom: 1px solid rgb(233, 233, 233);
+            padding: 14px; margin: 0;
+            background: hsl(0, 0%, 98%); color: hsl(0, 0%, 20%);
+            border-bottom: 1px solid hsl(0, 0%, 92%);
         }
         body > main {
-            padding: 0;
-            margin: 0;
+            padding: 0; margin: 0;
             height: 100%;
-            background: #87CEEB;
         }
 
     </style>
+
     <script src='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.js'></script>
     <script src="https://unpkg.com/pmtiles@1.0.4/dist/index.js"></script>
-    <script src="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.js"></script>
     <script>
 
         let cache = new pmtiles.ProtocolCache();
         maplibregl.addProtocol("pmtiles",cache.protocol);
         const map = new maplibregl.Map({
             container: 'map',
-            style: 'https://abiddiscombe-os/zoomstack2pmtiles/assets/OS_Open_Zoomstack_Road/style.json',
+            style: 'http://localhost/OS_Open_Zoomstack/road.json',
             center: [-2.9626, 54.4301],
             zoom: 12,
+            maxZoom: 14,
+            minZoom: 5,
             bearing: 0,
             pitch: 40.00,
             padding: [0, 0, 0, 0],
         });
 
     </script>
+    <script src="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.js"></script>
+
 </html>
