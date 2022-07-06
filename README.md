@@ -1,4 +1,4 @@
-# MBTiles to PMTiles: Converting the OS Open Zoomstack data.
+# MBTiles to PMTiles: Converting OS Open Zoomstack.
 
 This guide explains how to create a **PM**Tiles version of the OS Open Zoomstack **MB**Tiles data.
 
