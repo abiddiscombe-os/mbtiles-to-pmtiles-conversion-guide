@@ -89,7 +89,7 @@ const map = new maplibregl.Map({
 ```
 You should now be able to open your HTML file and view the PMTiles data in MapLibre.
 
-### Some Common Pitfalls
+## Common Pitfalls
 - Is the server CORS-enabled? Read more [here](https://protomaps.com/docs/pmtiles/storage-providers).
 - Are the URLs for the style documents and the .pmtiles file correct?
 - Are you using HTTPS for connections where required?
