@@ -6,7 +6,7 @@ This guide explains how to create a **PM**Tiles version of the OS Open Zoomstack
 
 **PM**Tiles ('Protomap Tiles' - [Official Website](https://protomaps.com/)) is a vector tile file format which supports random access, meaning induvidual tiles can be accessed as part of a single **PM**Tiles file when hosted on a server which supports [byte serving](https://en.wikipedia.org/wiki/Byte_serving). A JavaScript 'plugin' for mapping libraries (such as MapLibre) has been created by the Protomaps team; this provides the client functionality to access discreet parts of the **PM**Tiles file: requesting induvidual tiles per each request.
 
-Another *de-facto* standard for storing tile data is the **MB**Tiles file format, which has an SQLite database at its core. Whilst not a replacement for **MB**Tiles, the **PM**Tiles format has several notable adventages in specific use-cases where site traffic is low and there is no requirement to authenticate clients:
+Another *de-facto* standard for storing tile data is the **MB**Tiles file format, which has an SQLite database at its core. Whilst not a replacement for **MB**Tiles, the **PM**Tiles format has several notable advantages in specific use-cases where site traffic is low and there is no requirement to authenticate clients:
 - It is suitable for deployment to static sites or CDNs, which are often lower-cost and low-latency.
 - There is no need for middleware/backend to read induvidual tiles via SQL and serve them to clients.
 - There is no need to 'explode' the tiles into a series of physical directories following the `{z}/{x}/{y}` format.
