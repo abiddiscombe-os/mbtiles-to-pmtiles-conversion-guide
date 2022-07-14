@@ -2,6 +2,9 @@
 
 This guide explains how to create a **PM**Tiles version of the OS Open Zoomstack **MB**Tiles data.
 
+> **Note**  
+> Check out the [Live Demo](https://abiddiscombe-os.github.io/zoomstack2pmtiles/) to see an example of OS Open Zoomstack in PMTiles format!
+
 ## Introduction
 
 **PM**Tiles ('Protomap Tiles' - [Official Website](https://protomaps.com/)) is a vector tile file format which supports random access, meaning induvidual tiles can be accessed as part of a single **PM**Tiles file when hosted on a server which supports [byte serving](https://en.wikipedia.org/wiki/Byte_serving). A JavaScript 'plugin' for mapping libraries (such as MapLibre) has been created by the Protomaps team; this provides the client functionality to access discreet parts of the **PM**Tiles file: requesting induvidual tiles per each request.
