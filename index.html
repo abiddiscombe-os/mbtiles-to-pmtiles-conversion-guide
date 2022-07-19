@@ -21,6 +21,9 @@
                 <a class="fakebutton" onclick="changeStyle('road')">Road</a>
             </p>
         </header>
+        <aside>
+            <p>Due to CORS configuration on the server, this demo may not work in Safari or Firefox. Apologies.</p>
+        </aside>
         <main>
             <div id="map" style="height: 100%;">
                 <noscript>
@@ -44,12 +47,17 @@
         body {
             padding: 0; margin: 0;
             height: 100vh;
-            display: grid; grid-template-rows: auto 1fr;
+            display: grid; grid-template-rows: auto auto 1fr;
         }
         body > header {
             padding: 14px; margin: 0;
             background: hsl(0, 0%, 98%); color: hsl(0, 0%, 20%);
             border-bottom: 1px solid hsl(0, 0%, 92%);
+        }
+        body > aside {
+            padding: 14px; margin: 0;
+            background: hsl(44, 100%, 69%); color: hsl(0, 0%, 20%);
+            border-bottom: 1px solid hsl(51, 86%, 51%);
         }
         body > main {
             padding: 0; margin: 0;
