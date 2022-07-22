@@ -2,8 +2,8 @@
 
 This guide explains how to create a **PM**Tiles version of the OS Open Zoomstack **MB**Tiles data.
 
-> **Note**  
-> Check out the [Live Demo](https://abiddiscombe-os.github.io/zoomstack2pmtiles/) to see an example of OS Open Zoomstack in PMTiles format!
+> ⚡ **Live Demo**  
+> Check out the [Live Demo](https://abiddiscombe-os.github.io/zoomstack2pmtiles/) to see PMTiles in action, and the various styles available for OS Open Zoomstack. 
 
 ## Introduction
 
@@ -61,7 +61,6 @@ In each of the four style documents (e.g. `light.json`), modify the `http://loca
 You can now upload these files to your hosting location.
 
 ## Testing access to Open Zoomstack PMTiles within MapLibre GL JS
-*Sample code to help you get started is provided in the `demo.html` file in this repository.*  
 Add the sources for MapLibre, and the PMTiles for MapLibre plugin to your HTML:
 
 ```html
@@ -97,3 +96,7 @@ You should now be able to open your HTML file and view the PMTiles data in MapLi
 - Are the URLs for the style documents and the .pmtiles file correct?
 - Are you using HTTPS for connections where required?
 - OS_Open_Zoomstack only covers Great Britian - is your map centered in the right location?
+
+## Developer To-Do
+- Add CORS configuration advice
+- (Demo) Improve style preview function - prevent tile reload

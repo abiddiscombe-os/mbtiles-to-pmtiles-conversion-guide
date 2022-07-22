@@ -12,18 +12,14 @@
 
     <body>
         <header>
-            <h1>OS Open Zoomstack PMTiles Demo - <span id="js-styleNameTarget">LIGHT</span></h1>
-            <p>
-                <a href="https://github.com/abiddiscombe-os/zoomstack2pmtiles" target="_blank">GitHub Repo</a> | Style: 
-                <a class="fakebutton" onclick="changeStyle('light')">Light</a> / 
-                <a class="fakebutton" onclick="changeStyle('night')">Night</a> / 
-                <a class="fakebutton" onclick="changeStyle('outdoor')">Outdoor</a> / 
-                <a class="fakebutton" onclick="changeStyle('road')">Road</a>
-            </p>
+            <h1><a href="https://github.com/abiddiscombe-os/zoomstack2pmtiles">OS Open Zoomstack PMTiles Demo</a></h1>
+            <nav>
+                <button id="js-btn-light" class="active" onclick="changeStyle('light')">Light</button>
+                <button id="js-btn-night" class="" onclick="changeStyle('night')">Night</button>
+                <button id="js-btn-outdoor" class="" onclick="changeStyle('outdoor')">Outdoor</button>
+                <button id="js-btn-road" class="" onclick="changeStyle('road')">Road</button>
+            </nav>
         </header>
-        <aside>
-            <p>Due to CORS configuration on the server, this demo may not work in Safari or Firefox. Apologies.</p>
-        </aside>
         <main>
             <div id="map" style="height: 100%;">
                 <noscript>
@@ -36,44 +32,44 @@
     <style>
 
         @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
-        h1 {
-            margin: 0px; padding: 0px 0px 10px 0px; 
-            font-size: 1.2em; font-weight: 600; font-family: sans-serif;
-        }
-        p {
-            margin: 0px; padding: 0px 0px 4px 0px;
-            font-size: 0.92em; font-weight: 400; font-family: sans-serif;
-        }
         body {
             padding: 0; margin: 0;
             height: 100vh;
-            display: grid; grid-template-rows: auto auto 1fr;
+            display: grid; grid-template-rows: auto 1fr;
         }
         body > header {
-            padding: 14px; margin: 0;
-            background: hsl(0, 0%, 98%); color: hsl(0, 0%, 20%);
-            border-bottom: 1px solid hsl(0, 0%, 92%);
+            z-index: 100;
+            padding: 6px; margin: 0;
+            background: #fafafa;
+            border-bottom: 1px solid #F5F5F5;
+            box-shadow: 0px 2px 6px -4px #333333;
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
         }
-        body > aside {
-            padding: 14px; margin: 0;
-            background: hsl(44, 100%, 69%); color: hsl(0, 0%, 20%);
-            border-bottom: 1px solid hsl(51, 86%, 51%);
+        body > header > nav {
+            padding: 0; margin: 0;
         }
         body > main {
+            z-index: 1;
             padding: 0; margin: 0;
             height: 100%;
         }
-
-        .fakebutton {
-            padding: 2px 8px;
-            margin: 0;
-            background-color: lavender;
+        h1 {
+            margin: 6px; padding: 0;
+            font-size: 1.2em; font-weight: 600; font-family: 'Source Sans Pro', sans-serif;
         }
-
-        .fakebutton:hover {
-            padding: 4px 8px;
-            margin: 0;
-            background-color: rgb(181, 181, 214);
+        button {
+            margin: 6px; padding: 4px 16px;
+            background: none; color: #333333;
+            border: 1px solid #DDDDDD; border-radius: 4px;
+            font-size: 1em; font-weight: 400; font-family: 'Source Sans Pro', sans-serif;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #999999; color: #FFFFFF;
+        }
+        button.active{
+            background: #D40058; color: #FFFFFF;
         }
 
     </style>
@@ -84,7 +80,11 @@
 
         function changeStyle(newStyle) {
             map.setStyle(`https://labs.os.uk/pmtiles/styles/open-zoomstack/${newStyle}.json`)
-            document.getElementById('js-styleNameTarget').innerText = newStyle.toUpperCase()
+            document.getElementById('js-btn-light').className = "";
+            document.getElementById('js-btn-night').className = "";
+            document.getElementById('js-btn-outdoor').className = "";
+            document.getElementById('js-btn-road').className = "";
+            document.getElementById('js-btn-' + newStyle).className = "active";
         }
 
         let cache = new pmtiles.ProtocolCache();
