@@ -58,7 +58,7 @@ For the style documents you wish to use (e.g. `light.json`), modify the `http://
 ```
 You can now upload these files to your hosting location, please take care to ensure the URLs for sprites and fontstacks match the URLs in the style docuemnts.
 
-## 5. Connecting with MapLibre GL JS
+## Connecting with MapLibre GL JS
 Add the sources for MapLibre, and the PMTiles for MapLibre plugin to your HTML head section:
 
 ```html
