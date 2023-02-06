@@ -1,94 +1,75 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang='en' dir='ltr'>
 
     <head>
-        <title>OS Open Zoomstack | PMTiles Demo</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="https://github.com/abiddiscombe-os">
+        <title>OS Open Zoomstack PMTiles Demo</title>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <meta name='author' content='https://github.com/abiddiscombe-os'>
+
+        <!-- maplibre-gl-js -->
         <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.css' />
-        <link rel="stylesheet" href="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.css" />
+        <script src='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.js'></script>
+
+        <!-- pmtiles-plugin -->
+        <script src='https://unpkg.com/pmtiles@1.0.4/dist/index.js'></script>
+
+        <!-- tailwind (via twind.style) -->
+	    <!script src='https://cdn.twind.style' crossorigin></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+
     </head>
 
-    <body>
-        <header>
-            <h1><a href="https://github.com/abiddiscombe-os/zoomstack2pmtiles">OS Open Zoomstack PMTiles Demo</a></h1>
-            <nav>
-                <button id="js-btn-light" class="active" onclick="changeStyle('light')">Light</button>
-                <button id="js-btn-night" class="" onclick="changeStyle('night')">Night</button>
-                <button id="js-btn-outdoor" class="" onclick="changeStyle('outdoor')">Outdoor</button>
-                <button id="js-btn-road" class="" onclick="changeStyle('road')">Road</button>
-            </nav>
+    <body class='h-screen grid grid-rows-[auto,auto,auto,1fr]'>
+        <ribbon class='px-4 py-2 bg-gray-800'>
+            <img class='h-4' src='https://labs.os.uk/static/media/os-logo-white.svg' />
+        </ribbon>
+        <header class='px-4 py-3 bg-white flex justify-between border-b border-gray-200'>
+            <h1 class='text-lg text-gray-800 font-semibold'>
+                Zoomstack PMTiles Demo
+            </h1>
+            <button class='text-xs text-white px-4 py-1 rounded-2xl bg-[#453c90] hover:bg-[#373073] hover:shadow' onclick='navigateToSource()'>
+                View Source
+            </button>
         </header>
-        <main>
-            <div id="map" style="height: 100%;">
-                <noscript>
-                    <p>JavaScript is required to use MapLibre.</p>
-                </noscript>
-            </div>
-        </main>
-    </body>
-
-    <style>
-
-        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
-        body {
-            padding: 0; margin: 0;
-            height: 100vh;
-            display: grid; grid-template-rows: auto 1fr;
-        }
-        body > header {
-            z-index: 100;
-            padding: 6px; margin: 0;
-            background: #fafafa;
-            border-bottom: 1px solid #F5F5F5;
-            box-shadow: 0px 2px 6px -4px #333333;
-            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-        }
-        body > header > nav {
-            padding: 0; margin: 0;
-        }
-        body > main {
-            z-index: 1;
-            padding: 0; margin: 0;
-            height: 100%;
-        }
-        h1 {
-            margin: 6px; padding: 0;
-            font-size: 1.2em; font-weight: 600; font-family: 'Source Sans Pro', sans-serif;
-        }
-        button {
-            margin: 6px; padding: 4px 16px;
-            background: none; color: #333333;
-            border: 1px solid #DDDDDD; border-radius: 4px;
-            font-size: 1em; font-weight: 400; font-family: 'Source Sans Pro', sans-serif;
-            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #999999; color: #FFFFFF;
-        }
-        button.active{
-            background: #D40058; color: #FFFFFF;
-        }
-
-    </style>
-
-    <script src='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.js'></script>
-    <script src="https://unpkg.com/pmtiles@1.0.4/dist/index.js"></script>
+        <nav class="px-4 py-2 bg-gray-50 flex gap-2 border-b border-gray-200">
+            <!-- note: button styles are defined within js -->
+            <button id='js-btn-0' onclick='changeStyle(0)'>Light</button>
+            <button id='js-btn-1' onclick='changeStyle(1)'>Night</button>
+            <button id='js-btn-2' onclick='changeStyle(2)'>Outdoor</button>
+            <button id='js-btn-3' onclick='changeStyle(3)'>Road</button>
+        </nav>
+        <div class='h-full' id='map'>
+            <noscript>
+                <p>JavaScript is required to use MapLibre.</p>
+            </noscript>
+         </div>
+     </body>
+    
     <script>
 
-        function changeStyle(newStyle) {
-            map.setStyle(`https://labs.os.uk/pmtiles/styles/open-zoomstack/${newStyle}.json`)
-            document.getElementById('js-btn-light').className = "";
-            document.getElementById('js-btn-night').className = "";
-            document.getElementById('js-btn-outdoor').className = "";
-            document.getElementById('js-btn-road').className = "";
-            document.getElementById('js-btn-' + newStyle).className = "active";
+        const styles = [
+            'https://labs.os.uk/pmtiles/styles/open-zoomstack/light.json',
+            'https://labs.os.uk/pmtiles/styles/open-zoomstack/night.json',
+            'https://labs.os.uk/pmtiles/styles/open-zoomstack/outdoor.json',
+            'https://labs.os.uk/pmtiles/styles/open-zoomstack/road.json',
+        ]
+
+        function navigateToSource() {
+            document.location.href = 'https://github.com/abiddiscombe-os/os-zoomstack2pmtiles'
         }
 
-        let cache = new pmtiles.ProtocolCache();
-        maplibregl.addProtocol("pmtiles",cache.protocol);
+        function changeStyle(newStyle) {
+            map.setStyle(styles[newStyle])
+            document.getElementById('js-btn-0').className = 'grow md:grow-0 text-sm text-gray-800 px-4 md:px-6 py-1 rounded border border-gray-200 bg-white hover:bg-gray-100';
+            document.getElementById('js-btn-1').className = 'grow md:grow-0 text-sm text-gray-800 px-4 md:px-6 py-1 rounded border border-gray-200 bg-white hover:bg-gray-100';
+            document.getElementById('js-btn-2').className = 'grow md:grow-0 text-sm text-gray-800 px-4 md:px-6 py-1 rounded border border-gray-200 bg-white hover:bg-gray-100';
+            document.getElementById('js-btn-3').className = 'grow md:grow-0 text-sm text-gray-800 px-4 md:px-6 py-1 rounded border border-gray-200 bg-white hover:bg-gray-100';
+            document.getElementById(`js-btn-${newStyle}`).className = 'grow md:grow-0 text-sm text-white px-4 md:px-6 py-1 rounded border border-[#d40058] bg-[#d40058]';
+        }
+
+        maplibregl.addProtocol('pmtiles', new pmtiles.ProtocolCache().protocol);
+
         const map = new maplibregl.Map({
             container: 'map',
             style: 'https://labs.os.uk/pmtiles/styles/open-zoomstack/light.json',
@@ -96,12 +77,21 @@
             zoom: 12,
             maxZoom: 14,
             minZoom: 5,
-            bearing: 0,
-            pitch: 0,
-            padding: [0, 0, 0, 0],
+            dragRotate: false
         });
 
+        map.on('load', () => {
+
+            map.addControl(new maplibregl.NavigationControl({
+                showCompass: false,
+            }), 'top-right')
+
+        })
+
+        // init map style
+        changeStyle(0)
+
     </script>
-    <script src="https://labs.os.uk/public/os-api-branding/v0.2.0/os-api-branding.js"></script>
+    
 
 </html>
