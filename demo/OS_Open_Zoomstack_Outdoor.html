@@ -47,7 +47,7 @@
         // initialise PMTiles
         let protocol = new pmtiles.Protocol()
         maplibregl.addProtocol('pmtiles', protocol.tile);
-
+        
         const styleDocument = {
             "version": 8,
             "name": "Generic MapLibre Styling Document",
@@ -55,12 +55,12 @@
                 "OS_Open_Zoomstack": {
                     "type": "vector",
                     "tiles": [
-                        "pmtiles://https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OS_Open_Zoomstack.pmtiles/{z}/{x}/{y}"
+                        "pmtiles://https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/vectors.pmtiles/{z}/{x}/{y}"
                     ]
                 }
             },
-            "sprite": "https://labs.os.uk/tiles/styles/open-zoomstack-road/sprites",
-            "glyphs": "https://labs.os.uk/tiles/fonts/{fontstack}/{range}.pbf",
+            "sprite": "https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/sprites/sprites",
+            "glyphs": "https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/fonts/{fontstack}/{range}.pbf",
             layers: []
         }
 

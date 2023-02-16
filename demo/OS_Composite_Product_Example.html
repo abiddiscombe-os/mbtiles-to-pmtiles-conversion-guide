@@ -8,8 +8,8 @@
     <meta name='author' content='https://github.com/abiddiscombe-os'>
 
     <!-- maplibre-gl-js -->
-    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.css' />
-    <script src='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.js'></script>
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
 
     <!-- pmtiles-plugin -->
     <script src='https://unpkg.com/pmtiles@2.7.0/dist/index.js'></script>
@@ -55,18 +55,18 @@
                 "OS_Open_Zoomstack": {
                     "type": "vector",
                     "tiles": [
-                        "pmtiles://https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OS_Open_Zoomstack.pmtiles/{z}/{x}/{y}"
+                        "pmtiles://https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/vectors.pmtiles/{z}/{x}/{y}"
                     ]
                 },
                 "OS_BoundaryLine": {
                     "type": "vector",
                     "tiles": [
-                        "pmtiles://https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/bdline_gb.pmtiles/{z}/{x}/{y}"
+                        "pmtiles://https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSBoundaryLine/vectors.pmtiles/{z}/{x}/{y}"
                     ]
                 }
             },
-            "sprite": "https://labs.os.uk/tiles/styles/open-zoomstack-road/sprites",
-            "glyphs": "https://labs.os.uk/tiles/fonts/{fontstack}/{range}.pbf",
+            "sprite": "https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/sprites/sprites",
+            "glyphs": "https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/fonts/{fontstack}/{range}.pbf",
             layers: []
         }
 
