@@ -39,7 +39,7 @@
 <script>
 
     function navigateToSource() {
-        document.location.href = 'https://github.com/abiddiscombe-os/os-zoomstack2pmtiles'
+        document.location.href = 'https://abiddiscombe-os.github.io/mbtiles-to-pmtiles-conversion-guide'
     }
 
     async function init() {
@@ -76,10 +76,10 @@
             after adding basemap tilesets.
         */
 
-        const osOpenZoomstackTheme = await fetch('/demo/styles/OS_Open_Zoomstack/light.json')
+        const osOpenZoomstackTheme = await fetch('https://abiddiscombe-os.github.io/mbtiles-to-pmtiles-conversion-guide/demo/styles/OS_Open_Zoomstack/light.json')
         styleDocument.layers = styleDocument.layers.concat(await osOpenZoomstackTheme.json())
 
-        const osBoundaryLineTheme = await fetch('/demo/styles/OS_BoundaryLine/default.json')
+        const osBoundaryLineTheme = await fetch('https://abiddiscombe-os.github.io/mbtiles-to-pmtiles-conversion-guide/demo/styles/OS_BoundaryLine/default.json')
         styleDocument.layers = styleDocument.layers.concat(await osBoundaryLineTheme.json())
 
         const map = new maplibregl.Map({

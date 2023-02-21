@@ -4,7 +4,7 @@
 
 [Protomap Tiles](https://protomaps.com/docs/pmtiles) (**PM**Tiles) is a single-file vector or raster tile storage specification which stores a complete tileset within a single file using a compressed form of Hilbert Ordering. Tiles can be accessed from within a PMTiles archive using [HTTP range requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests) which return a specified portion of the resource.
 
-[![](/media/demo-button.png)](https://abiddiscombe-os.github.io/os-zoomstack2pmtiles)
+[![](/media/demo-button.png)](https://abiddiscombe-os.github.io/mbtiles-to-pmtiles-conversion-guide)
 
 Another *de-facto* standard for storing tile data is the **MB**Tiles file format. MBTiles files are loosely modelled on an SQLite database; tiles are returned via SQL queries. Whilst not intended to replace **MB**Tiles, the **PM**Tiles format has several notable advantages in specific use-cases where site traffic is low:
 
