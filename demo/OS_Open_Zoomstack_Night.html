@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang='en' dir='ltr'>
+
+<head>
+    <title>PMTiles Demo</title>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='author' content='https://github.com/abiddiscombe-os'>
+
+    <!-- maplibre-gl-js -->
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@2.2.0-pre.2/dist/maplibre-gl.js'></script>
+
+    <!-- pmtiles-plugin -->
+    <script src='https://unpkg.com/pmtiles@2.7.0/dist/index.js'></script>
+
+    <!-- tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class='h-screen grid grid-rows-[auto,1fr]'>
+    <header class='px-4 py-3 bg-white flex justify-between gap-4 border-b border-gray-200'>
+        <h1 class='text-lg text-gray-800 font-semibold'>
+            PMTiles Demo - OS Open Zoomstack (Night Theme)
+        </h1>
+        <button class='text-xs text-white px-4 py-1 rounded-2xl bg-[#453c90] hover:bg-[#373073] hover:shadow'
+            onclick='navigateToSource()'>
+            View Source
+        </button>
+    </header>
+    <div class='h-full' id='map'>
+        <noscript>
+            <p>JavaScript is required to use MapLibre.</p>
+        </noscript>
+    </div>
+</body>
+
+<script>
+
+    function navigateToSource() {
+        document.location.href = 'https://github.com/abiddiscombe-os/os-zoomstack2pmtiles'
+    }
+
+    async function init() {
+
+        // initialise PMTiles
+        let protocol = new pmtiles.Protocol()
+        maplibregl.addProtocol('pmtiles', protocol.tile);
+
+        const styleDocument = {
+            "version": 8,
+            "name": "Generic MapLibre Styling Document",
+            "sources": {
+                "OS_Open_Zoomstack": {
+                    "type": "vector",
+                    "tiles": [
+                        "pmtiles://https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/vectors.pmtiles/{z}/{x}/{y}"
+                    ]
+                }
+            },
+            "sprite": "https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/sprites/sprites",
+            "glyphs": "https://rptxpoc1datastore.blob.core.windows.net/abiddiscombe-pmtiles/OSOpenZoomstack/fonts/{fontstack}/{range}.pbf",
+            layers: []
+        }
+
+        const osOpenZoomstackTheme = await fetch('/demo/styles/OS_Open_Zoomstack/night.json')
+        styleDocument.layers = styleDocument.layers.concat(await osOpenZoomstackTheme.json())
+
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: styleDocument,
+            center: [-2.9626, 54.4301],
+            zoom: 7,
+            maxZoom: 14,
+            minZoom: 5,
+            dragRotate: false
+        });
+
+        map.on('load', () => {
+
+            map.addControl(new maplibregl.NavigationControl({
+                showCompass: false,
+            }), 'top-right')
+
+        })
+
+    }
+
+    init()
+
+</script>
+
+</html>

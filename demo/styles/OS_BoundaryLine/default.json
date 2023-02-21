@@ -1,0 +1,12 @@
+[
+    {
+        "id": "westminster_const",
+        "type": "line",
+        "source": "OS_BoundaryLine",
+        "source-layer": "westminster_const",
+        "layout": {},
+        "paint": {
+            "line-color": "#ef2199"
+        }
+    }
+]

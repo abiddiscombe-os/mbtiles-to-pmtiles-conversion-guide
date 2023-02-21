@@ -1,96 +1,115 @@
-# MBTiles to PMTiles: Converting OS Open Zoomstack
+@abiddiscombe | [abiddiscombe.dev](https://abiddiscombe.dev)
 
-Ordnance Survey's free [Open Zoomstack](https://www.ordnancesurvey.co.uk/business-government/products/open-zoomstack) is a great data source for creating simple customisable web basemaps spanning Great Britain (note: Zoomstack is not a global product). This guide explains how to create a **PM**Tiles version of the OS Open Zoomstack **MB**Tiles data. 
+# PMTiles Conversion Guide for Ordnance Survey Open Data Products
 
-> ⚡ **Live Demo**  
-> Check out the [Live Demo](https://abiddiscombe-os.github.io/os-zoomstack2pmtiles/) to see PMTiles in action, and the various styles available for OS Open Zoomstack.
+[Protomap Tiles](https://protomaps.com/docs/pmtiles) (**PM**Tiles) is a single-file vector or raster tile storage specification which stores a complete tileset within a single file using a compressed form of Hilbert Ordering. Tiles can be accessed from within a PMTiles archive using [HTTP range requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests) which return a specified portion of the resource.
 
-**PM**Tiles ('Protomap Tiles' - [Official Website](https://protomaps.com/)) is a vector tile file format which supports random access, meaning induvidual tiles can be accessed as part of a single **PM**Tiles file when hosted on a server which supports [byte serving](https://en.wikipedia.org/wiki/Byte_serving). A JavaScript 'plugin' for mapping libraries (such as MapLibre) has been created by the Protomaps team; this provides the client functionality to access discreet parts of the **PM**Tiles file: requesting induvidual tiles per each request.
+[![](/media/demo-button.png)](https://abiddiscombe-os.github.io/os-zoomstack2pmtiles)
 
-Another *de-facto* standard for storing tile data is the **MB**Tiles file format, which has an SQLite database at its core. Whilst not a replacement for **MB**Tiles, the **PM**Tiles format has several notable advantages in specific use-cases where site traffic is low and there is no requirement to authenticate clients:
-- It is suitable for deployment to static sites or CDNs, which are often lower-cost and low-latency.
-- There is no need for middleware/backend to read induvidual tiles via SQL and serve them to clients.
-- There is no need to 'explode' the tiles into a series of physical directories following the `{z}/{x}/{y}` format.
+Another *de-facto* standard for storing tile data is the **MB**Tiles file format. MBTiles files are loosely modelled on an SQLite database; tiles are returned via SQL queries. Whilst not intended to replace **MB**Tiles, the **PM**Tiles format has several notable advantages in specific use-cases where site traffic is low:
 
-The [Protomaps documentation](https://protomaps.com/docs/pmtiles/storage-providers) lists compatible storage providers for hosting PMTiles.
+- It is suitable for deployment to either static file buckets, CDNs, or blob stores (including those compatible with the S3 transfer protocol), which are low-cost and low-latency. A PMTiles file can sit on the network edge, and serve data to clients with minimal overhead and no cloud compute requirements. MBTiles cannot be stored in this form because they must be queried via SQL.
 
-## Conversion Guide
-If you haven't already, please download the OS Open Zoomstack data from the [OS Data Hub](https://osdatahub.os.uk/downloads/open/OpenZoomstack) in `Vector Tiles (MBTiles)` format.
+- Unlike MBTiles, there is no need for a service backend to query tiles from a database and serve them onwards to clients, as this process can be handled on the client. Alternatively, edge functions or workers can be utilised to fetch data from a blob store and serve it onwards in the universal `z/x/y` format from a geographically perferable position on the network edge. The latter approach is similar to existing architectual mechanisms for serving MBTiles and provides finer controls over security.
 
-> ℹ **Attribution Required**  
-> Ordnance Survey's Open Zoomstack data is free to use, [but you must provide attribution](https://github.com/OrdnanceSurvey/os-api-branding) to use it in your mapping projects.
+- There is no requirement to 'explode' the tiles into a series of physical directories following the `{z}/{x}/{y}` format on a server. The transfer of many-thousand tiles to a server as discreet files takes time and is challenging to maintain.
 
-Make sure you have an up-to-date copy of `python3` and `python3-pip` on your system, then install the `pmtiles` python package, which we will use to convert **MB**Tiles into **PM**Tiles. See the [official PMTiles documentation](https://protomaps.com/docs/pmtiles#pmtiles-for-python) for more information.
+The [Protomaps site provides a convenient method](https://app.protomaps.com/downloads/small_map) to select a cut of OpenStreetMap data to convert and download in the PMTiles format on-the-fly. This guide explains how to replicate this capability with third-party datasets including data from Ordnance Survey. Please be advised that more detailed instructions on these processing steps have been prepared in the [PMTiles documentation](https://protomaps.com/docs/pmtiles).
 
-```bash
-pip install pmtiles
+In this guide, OS' Open Data products (OS Open Zoomstack, OS BoundaryLine, etc.) are converted and hosted publicly, however the PMTiles format is also suitable for premium datasets where access is restricted. **When using Ordnance Survey's datasets [you must provide attribution](https://github.com/OrdnanceSurvey/os-api-branding) where you use it, including on digital maps or demonstrations.**
+
+## MBTiles to PMTiles Conversion Process
+The following section will walk you through the steps required to create your own PMTiles data from an MBTiles archive. These instructions have been written for Windows, but are replicable on MacOS and Linux.
+
+1. Please download the relevant data products from the [OS Data Hub](https://osdatahub.os.uk/downloads/open/) in the `.mbtiles` format.
+
+2. Download the latest PMTiles CLI utility for your system. You can download the latest binaries from [Protomaps' GitHub](https://github.com/protomaps/go-pmtiles/releases) page.
+
+3. Once fully downloaded, extract the `.zip` archive to a location on your system where you can easily access the MBTiles file, and then open a new PowerShell prompt within the directory.
+
+4. The following command will use the PMTiles utility to convert an existing `.mbtiles` file into a new `.pmtiles` file, the time required will vary depending on the size of the source data, for OS Open Zoomstack, it takes about 40 seconds:
+
+``` bash
+.\pmtiles.exe convert OS_Open_Zoomstack.mbtiles OS_Open_Zoomstack.pmtiles
 ```
 
-Once installed, run the following command to convert the OS Open Zoomstack **MB**Tiles data into **PM**Tiles format.  
+5. You now have a ready-to-serve PMTiles archive which can be uploaded to a supported blob store or static site. When the source data is updated you can re-generate the PMTiles file and re-upload it.
 
-```bash
-pmtiles-convert OS_Open_Zoomstack.mbtiles OS_Open_Zoomstack.pmtiles
+Whilst you now have a base vector tileset ready for use in a mapping library, you will still need to provide the relevant map style documents for each layer, plus any fontstack or sprite resources used by any particular layer. This is no different to supplying resources when using a standard `z/x/y` tile server.
+
+The resources for OS Open Zoomstack have been provided in this repository. Please upload these resources to your blob store and update the relevant URLs to match your configuration.
+
+## Deployment
+There are two different methods of serving tiles to clients. In all deployment scenarios the hosting service must have an appropriate CORS configuration to enable tiles to be fetched from a specific domain.
+
+### Option 1: Edge-Based CDN Tile Relay
+The first method introduces an additional proccessing step on the cloud. It involves configuring a serverless function to query the PMTiles file and forward tiles (if found) via HTTP to clients. This approach provides greater control over the HTTP connection: authentication (such as API keys or bearer tokens) can be applied, and detailed CORS configurations can be administered.
+
+Detailed instructions on the hosting of PMTiles data in this way is available on the [Protomaps Documentation](https://protomaps.com/docs/cdn). Protomaps encourages the use of Cloudflare's R2 and Workers, or the use of AWS' Cloudfront.
+
+### Option 2: PMTiles Client Conversion
+The second option involves a PMTiles file deployed to a blob store or Content Delivery Network (CDN). The [Protomaps documentation](https://protomaps.com/docs/pmtiles/cloud-storage) lists some compatible storage providers.
+
+Plugins for JavaScript mapping libraries such as [MapLibre](https://maplibre.org/maplibre-gl-js-docs/api/) and [Leaflet](https://leafletjs.com/), have been created by the Protomaps team: [these plugins](https://protomaps.com/docs/frontends/basemap-layers) enable clients to resolve and ingest tiles as if they were served from a standard `z/x/y` API endpoint. This requires an additional processing step on the client.
+
+**The following examples are for use with [MapLibre](https://maplibre.org/maplibre-gl-js-docs/api/).**
+
+If you are developing your application in NodeJS, you can install the `pmtiles` plugin directly; otherwise the CDN version hosted on `unpkg.org` can be imported:
+
+``` html
+<!-- more current versions may be available -->
+<script src='https://unpkg.com/pmtiles@2.7.0/dist/index.js'></script>
 ```
 
-*Running on WSL Ubuntu 20.04, my .pmtiles output was ~3.5 GB in size and took 30 seconds to produce.*
+Once installed, you must define the PMTiles protocol and add it to MapLibre or Leaflet. The plugin enables PMTiles sources to be added to MapLibre's style document:
 
-## Hosting Guide
-This guide assumes you already have access to a CORS-enabled storage location which supports [byte serving](https://en.wikipedia.org/wiki/Byte_serving). Byte-serving requires the `range` header to be exposed, else you will recieve errors in some web browsers (including Safari and Firefox). It's also important to specify the domains allowed to access the tiles: use either `yourapp.example.com` to limit tile access to just your application, or `*` to enable access to the server resources from any site on the internet.
+``` javascript
+const pmtilesProtocol = new pmtiles.Protocol()
+maplibregl.addProtocol('pmtiles', pmtilesProtocol.tile);
 
-Download the `OS_Open_Zoomstack` folder from this repository. This folder contains the style data, sprites, and web fonts required to load OS Open Zoomstack. Modified versions of the `Road`, `Outdoor`, `Light`, and `Night` styles are provided.
-
-For the style documents you wish to use (e.g. `light.json`), modify the `http://localhost/` component of the URLs (under `tiles`, `sprite`, `glyphs`) to match the destination where you will host these files. It's important to note that you may (and should) store tiles at an HTTPS endpoint in production.
-
-```json
-"version": 8,
-"name": "OS Open Zoomstack - Light",
-"sources": {
-    "composite": {
-        "type": "vector",
-        "tiles": [
-            // edit me (1/3)
-            "pmtiles://http://localhost/OS_Open_Zoomstack/OS_Open_Zoomstack.pmtiles/{z}/{x}/{y}"
-        ]
-    }
-},
-"sprite": "http://localhost/OS_Open_Zoomstack/sprites/sprites", // edit me too (2/3)
-"glyphs": "http://localhost/OS_Open_Zoomstack/fonts/{fontstack}/{range}.pbf", // and me (3/3)
-```
-You can now upload these files to your hosting location, please take care to ensure the URLs for sprites and fontstacks match the URLs in the style docuemnts.
-
-## Connecting with MapLibre GL JS
-Add the sources for MapLibre, and the PMTiles for MapLibre plugin to your HTML head section:
-
-```html
-<! MapLibre >
-<link href='https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.css' rel='stylesheet' />
-<script src='https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.js'></script>
-<! PMTiles for MapLibre >
-<script src="https://unpkg.com/pmtiles@1.0.4/dist/index.js"></script>
-```
-
-In JavaScript, define a new Protocol Cache for PMTiles and connect it to MapLibre.  
-Define a new MapLibre instance. The value for `style` should match the location of one of the four style documents you uploaded to your hosting location.
-
-```javascript
-let cache = new pmtiles.ProtocolCache();
-maplibregl.addProtocol("pmtiles",cache.protocol);
+const styleDocument = {
+	"version": 8,
+	"name": "Generic MapLibre Styling Document",
+	"sources": {
+		"boundaryline": {
+		"type": "vector",
+		"tiles": [ "pmtiles://https://example.com/bdline_gb.pmtiles/{z}/{x}/{y}" ]
+	},
+	layers: [
+		{
+			"id": "westminster_const",
+			"type": "line",
+			"source": "boundaryline",
+			"source-layer": "westminster_const",
+			"layout": {},
+			"paint": {
+				"line-color": "#ef2199"
+			}
+		}
+	]
+}
 
 const map = new maplibregl.Map({
-    container: 'map',
-    style: 'http://localhost/OS_Open_Zoomstack/light.json',
-    // customise map placement to meet your needs
-    center: [-2.9626, 54.4301],
-    zoom: 12,
-    bearing: 0,
-    pitch: 40.00,
-    padding: [0, 0, 0, 0],
+	container: 'map',
+	style: styleDocument,
+	center: [-2.9626, 54.4301],
+	zoom: 7,
+	maxZoom: 14,
+	minZoom: 5,
 });
 ```
-You should now be able to open your HTML file and view the PMTiles data in MapLibre GL JS.
+
+Please note, your style document must contain all relevant styling for each layer within the PMTiles file (just as with any other vector tile data source). Vectors without style information will not be visible. To help you get started several example stylesheets for OS Open Data have been included within this repository.
 
 ## Common Pitfalls
+If you have following the above instructions and still encounter issues, please run through this checklist:
+
 - Is the server CORS-enabled? Read more [here](https://protomaps.com/docs/pmtiles/storage-providers).
-- Are the URLs for the style documents and the .pmtiles file correct?
-- Are you using HTTPS for connections where required?
-- OS_Open_Zoomstack only covers Great Britian - is your map centered in the right location?
+
+- Are the URLs for the style documents and the `.pmtiles` file correct?
+
+- Are you using HTTPS for connections where required? Some hosting providers and domains requires HTTPS by default.
+
+- OS' Open Data products only cover Great Britain (so your map may appear empty beyond this extent) - please check your map is centred in the right location.
+
+- If you are using a cloud function, is the connection between the pmtiles file and the compute infastructure valid? You may wish to check your access keys.
